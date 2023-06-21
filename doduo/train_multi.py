@@ -301,26 +301,33 @@ if __name__ == "__main__":
                                           collate_fn=collate_fn)
         elif "turl" in task:
             if task in ["turl"]:
+                print("cinfig turl type position")
                 # TODO: Double-check if it is compatible with single/multi-column data
                 filepath = "data/table_col_type_serialized.pkl"
                 if args.single_col:
                     assert task == "turl"  # Single-column model cannot be used for turl-sch
                     # ColumnWise
+                    print("init single-col type data")
                     dataset_cls = TURLColTypeColwiseDataset
                 else:
                     # Tablewise
+                    print("init tablewise type data")
                     dataset_cls = TURLColTypeTablewiseDataset
             elif task in ["turl-re"]:
                 # TODO: Double-check if it is compatible with single/multi-column data
                 filepath = "data/table_rel_extraction_serialized.pkl"
+                print("cinfig turl rel position")
                 if args.single_col:
+                    print("init single-col rel data")
                     assert task == "turl-re"  # Single-column model cannot be used for turl-sch
                     dataset_cls = TURLRelExtColwiseDataset
                 else:
+                    print("init tablewise rel data")
                     dataset_cls = TURLRelExtTablewiseDataset
             else:
                 raise ValueError("turl tasks must be turl or turl-re.")
 
+            print("prepare train dataset")
             train_dataset = dataset_cls(filepath=filepath,
                                         split="train",
                                         tokenizer=tokenizer,
@@ -328,6 +335,7 @@ if __name__ == "__main__":
                                         multicol_only=False,
                                         train_ratio=train_ratio,
                                         device=device)
+            print("prepare validate dataset")
             valid_dataset = dataset_cls(filepath=filepath,
                                         split="dev",
                                         tokenizer=tokenizer,
