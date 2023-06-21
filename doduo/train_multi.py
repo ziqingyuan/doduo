@@ -136,6 +136,7 @@ if __name__ == "__main__":
         "turl-re": 121
     }
 
+    print("prepare task list")
     train_ratio_dict = {}
     num_classes_list = []
     for task in args.tasks:
@@ -198,6 +199,7 @@ if __name__ == "__main__":
     tokenizer = BertTokenizer.from_pretrained(shortcut_name)
     # model = BertForSequenceClassification.from_pretrained(
 
+    print("prepare corresponding model list")
     models = []
     for i, num_classes in enumerate(num_classes_list):
         if args.single_col:
@@ -236,6 +238,7 @@ if __name__ == "__main__":
         models.append(model.to(device))
 
     # Check if the parameters are shared
+    print("Check if the parameters are shared")
     assert 1 == len(
         set([
             model.bert.embeddings.word_embeddings.weight.data_ptr()
@@ -254,6 +257,7 @@ if __name__ == "__main__":
     valid_datasets = []
     valid_dataloaders = []
 
+    print("load corresponding training data")
     for task in args.tasks:
         train_ratio = train_ratio_dict[task]
         if task in [
@@ -352,6 +356,8 @@ if __name__ == "__main__":
     optimizers = []
     schedulers = []
     loss_fns = []
+
+    print("Set learning algorithm")
     for i, train_dataloader in enumerate(train_dataloaders):
         t_total = len(train_dataloader) * num_train_epochs
         no_decay = ["bias", "LayerNorm.weight"]
@@ -393,6 +399,8 @@ if __name__ == "__main__":
     best_vl_micro_f1s = [-1 for _ in range(len(args.tasks))]
     best_vl_macro_f1s = [-1 for _ in range(len(args.tasks))]
     loss_info_lists = [[] for _ in range(len(args.tasks))]
+
+    print("Start training")
     for epoch in range(num_train_epochs):
         for k, (task, model, train_dataset, valid_dataset, train_dataloader,
                 valid_dataloader, optimizer, scheduler, loss_fn,
@@ -412,6 +420,7 @@ if __name__ == "__main__":
             vl_true_list = []
 
             for batch_idx, batch in enumerate(train_dataloader):
+                print("Start batch: {}".format(batch_idx))
                 if args.single_col:
                     logits = model(batch["data"].T).logits
                     if "sato" in task:
@@ -475,6 +484,7 @@ if __name__ == "__main__":
                     elif "turl" in task:
                         loss = loss_fn(filtered_logits, batch["label"].float())
 
+                print("end batch: {}".format(batch_idx))
                 loss.backward()
                 tr_loss += loss.item()
                 optimizer.step()
