@@ -429,7 +429,7 @@ if __name__ == "__main__":
 
             print("Total barch size: {}".format(len(train_dataloader)))
             for batch_idx, batch in enumerate(train_dataloader):
-                print("Start batch n: {}, task: {}".format(batch_idx, task))
+                # print("Start batch n: {}, task: {}".format(batch_idx, task))
                 if args.single_col:
                     logits = model(batch["data"].T).logits
                     if "sato" in task:
@@ -450,7 +450,7 @@ if __name__ == "__main__":
                             "Invalid task for single-col: {}".format(task))
                 else:
                     # Multi-column model
-                    print("batch['data'].shape={}".format(batch['data'].shape))
+                    # print("batch['data'].shape={}".format(batch['data'].shape))
                     logits, = model(batch["data"].T)  # (row, col) is opposite?
 
                     # Align the tensor shape when the size is 1
@@ -494,7 +494,7 @@ if __name__ == "__main__":
                     elif "turl" in task:
                         loss = loss_fn(filtered_logits, batch["label"].float())
 
-                print("end batch: {}".format(batch_idx))
+                # print("end batch: {}".format(batch_idx))
                 loss.backward()
                 tr_loss += loss.item()
                 optimizer.step()
@@ -519,6 +519,7 @@ if __name__ == "__main__":
                     tr_true_list, tr_pred_list)
 
             # Validation
+            print("Start validation".format(batch_idx))
             model.eval()
             for batch_idx, batch in enumerate(valid_dataloader):
                 if args.single_col:
