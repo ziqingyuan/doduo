@@ -427,6 +427,7 @@ if __name__ == "__main__":
             vl_pred_list = []
             vl_true_list = []
 
+            print("Total barch size: {}".format(len(train_dataloader)))
             for batch_idx, batch in enumerate(train_dataloader):
                 print("Start batch n: {}, task: {}".format(batch_idx, task))
                 if args.single_col:
