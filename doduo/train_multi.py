@@ -428,7 +428,7 @@ if __name__ == "__main__":
             vl_true_list = []
 
             for batch_idx, batch in enumerate(train_dataloader):
-                print("Start batch: {}".format(batch_idx))
+                print("Start batch n: {}, task: {}".format(batch_idx, task))
                 if args.single_col:
                     logits = model(batch["data"].T).logits
                     if "sato" in task:
