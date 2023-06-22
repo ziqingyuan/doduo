@@ -82,8 +82,7 @@ class SatoCVColwiseDataset(Dataset):
             lambda x: torch.LongTensor(
                 tokenizer.encode(x,
                                  add_special_tokens=True,
-                                 max_length=max_length + 2,
-                                 truncation=True)).to(device))
+                                 max_length=max_length + 2)).to(device))
         self.df["label_tensor"] = self.df["class_id"].apply(
             lambda x: torch.LongTensor([x]).to(device)
         )  # Can we reduce the size?
@@ -150,7 +149,7 @@ class SatoCVTablewiseDataset(Dataset):
                 continue
 
             token_ids_list = group_df["data"].apply(lambda x: tokenizer.encode(
-                x, add_special_tokens=True, max_length=max_length + 2, truncation=True)).tolist(
+                x, add_special_tokens=True, max_length=max_length + 2)).tolist(
                 )
             token_ids = torch.LongTensor(reduce(operator.add,
                                                 token_ids_list)).to(device)
@@ -234,7 +233,7 @@ class TURLColTypeColwiseDataset(Dataset):
         self.df["data_tensor"] = self.df["data"].apply(
             lambda x: torch.LongTensor(
                 tokenizer.encode(
-                    x, add_special_tokens=True, max_length=max_length + 2, truncation=True)).to(
+                    x, add_special_tokens=True, max_length=max_length + 2, )).to(
                         device)).tolist()
 
         self.df["label_tensor"] = self.df["label_ids"].apply(
@@ -289,7 +288,7 @@ class TURLColTypeTablewiseDataset(Dataset):
                 continue
 
             token_ids_list = group_df["data"].apply(lambda x: tokenizer.encode(
-                x, add_special_tokens=True, max_length=max_length + 2, truncation=True)).tolist(
+                x, add_special_tokens=True, max_length=max_length + 2)).tolist(
                 )
             token_ids = torch.LongTensor(reduce(operator.add,
                                                 token_ids_list)).to(device)
@@ -368,12 +367,10 @@ class TURLRelExtColwiseDataset(Dataset):
                 row["data_tensor"] = torch.LongTensor(
                     tokenizer.encode(group_df.iloc[0]["data"],
                                      add_special_tokens=True,
-                                     max_length=max_length + 2,
-                                     truncation=True) +
+                                     max_length=max_length + 2) +
                     tokenizer.encode(row["data"],
                                      add_special_tokens=True,
-                                     max_length=max_length + 2,
-                                     truncation=True)).to(device)
+                                     max_length=max_length + 2)).to(device)
 
                 row_list.append(row)
 
@@ -435,7 +432,7 @@ class TURLRelExtTablewiseDataset(Dataset):
                 continue
 
             token_ids_list = group_df["data"].apply(lambda x: tokenizer.encode(
-                x, add_special_tokens=True, max_length=max_length + 2, truncation=True)).tolist(
+                x, add_special_tokens=True, max_length=max_length + 2)).tolist(
                 )
             token_ids = torch.LongTensor(reduce(operator.add,
                                                 token_ids_list)).to(device)
