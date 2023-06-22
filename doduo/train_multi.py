@@ -450,6 +450,7 @@ if __name__ == "__main__":
                             "Invalid task for single-col: {}".format(task))
                 else:
                     # Multi-column model
+                    print("batch['data'].shape={}".format(batch['data'].shape))
                     logits, = model(batch["data"].T)  # (row, col) is opposite?
 
                     # Align the tensor shape when the size is 1
