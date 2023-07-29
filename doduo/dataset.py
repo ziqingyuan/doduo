@@ -142,6 +142,9 @@ class SatoCVTablewiseDataset(Dataset):
         valid_index = int(num_tables * 0.8)
         num_train = int(train_ratio * num_tables * 0.8)
 
+        # DEBUG: new logic ensure not exceed maximum number of tokens for BERT
+        table_hard_cap = 512
+
         data_list = []
         for i, (index, group_df) in enumerate(df.groupby("table_id")):
             if (split == "train") and ((i >= num_train) or (i >= valid_index)):
@@ -152,8 +155,16 @@ class SatoCVTablewiseDataset(Dataset):
             token_ids_list = group_df["data"].apply(lambda x: tokenizer.encode(
                 x, add_special_tokens=True, max_length=max_length + 2, truncation=True)).tolist(
                 )
-            token_ids = torch.LongTensor(reduce(operator.add,
-                                                token_ids_list)).to(device)
+            # token_ids = torch.LongTensor(reduce(operator.add,
+            #                                     token_ids_list)).to(device)
+
+            flat_token_ids = reduce(operator.add, token_ids_list)
+
+            if len(flat_token_ids) > table_hard_cap:
+                flat_token_ids = flat_token_ids[:table_hard_cap]
+
+            token_ids = torch.LongTensor(flat_token_ids).to(device)
+
             cls_index_list = [0] + np.cumsum(
                 np.array([len(x) for x in token_ids_list])).tolist()[:-1]
             for cls_index in cls_index_list:
