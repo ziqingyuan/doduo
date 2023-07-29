@@ -26,18 +26,20 @@ from dataset import (
 
 from model import BertForMultiOutputClassification, BertMultiPairPooler
 
-sato_coltypes = ["address", "affiliate", "affiliation", "age", "album", "area",
-                 "artist", "birthDate", "birthPlace", "brand", "capacity", "category",
-                 "city", "class", "classification", "club", "code", "collection", "command",
-                 "company", "component", "continent", "country", "county", "creator", "credit",
-                 "currency", "day", "depth", "description", "director", "duration", "education",
-                 "elevation", "family", "fileSize", "format", "gender", "genre", "grades", "isbn",
-                 "industry", "jockey", "language", "location", "manufacturer", "name", "nationality",
-                 "notes", "operator", "order", "organisation", "origin", "owner", "person", "plays",
-                 "position", "product", "publisher", "range", "rank", "ranking", "region", "religion",
-                 "requirement", "result", "sales", "service", "sex", "species", "state", "status",
-                 "symbol", "team", "teamName", "type", "weight", "year"]
+# sato_coltypes = ["address", "affiliate", "affiliation", "age", "album", "area",
+#                  "artist", "birthDate", "birthPlace", "brand", "capacity", "category",
+#                  "city", "class", "classification", "club", "code", "collection", "command",
+#                  "company", "component", "continent", "country", "county", "creator", "credit",
+#                  "currency", "day", "depth", "description", "director", "duration", "education",
+#                  "elevation", "family", "fileSize", "format", "gender", "genre", "grades", "isbn",
+#                  "industry", "jockey", "language", "location", "manufacturer", "name", "nationality",
+#                  "notes", "operator", "order", "organisation", "origin", "owner", "person", "plays",
+#                  "position", "product", "publisher", "range", "rank", "ranking", "region", "religion",
+#                  "requirement", "result", "sales", "service", "sex", "species", "state", "status",
+#                  "symbol", "team", "teamName", "type", "weight", "year"]
 
+with open('dbpedia_coltypes.pkl', 'rb') as file:
+    sato_coltypes = pickle.load(file)
 
 ## Except for the following 3 classes, the column type name is a single token
 # 2 birthDate

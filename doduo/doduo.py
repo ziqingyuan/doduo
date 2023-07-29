@@ -23,20 +23,20 @@ from doduo.dataset import collate_fn
 from doduo.model import BertForMultiOutputClassification, BertMultiPairPooler
 from doduo.util import parse_tagname, f1_score_multilabel
 
-sato_coltypes = [
-    "address", "affiliate", "affiliation", "age", "album", "area", "artist",
-    "birthDate", "birthPlace", "brand", "capacity", "category", "city",
-    "class", "classification", "club", "code", "collection", "command",
-    "company", "component", "continent", "country", "county", "creator",
-    "credit", "currency", "day", "depth", "description", "director",
-    "duration", "education", "elevation", "family", "fileSize", "format",
-    "gender", "genre", "grades", "isbn", "industry", "jockey", "language",
-    "location", "manufacturer", "name", "nationality", "notes", "operator",
-    "order", "organisation", "origin", "owner", "person", "plays", "position",
-    "product", "publisher", "range", "rank", "ranking", "region", "religion",
-    "requirement", "result", "sales", "service", "sex", "species", "state",
-    "status", "symbol", "team", "teamName", "type", "weight", "year"
-]
+# sato_coltypes = ["address", "affiliate", "affiliation", "age", "album", "area",
+#                  "artist", "birthDate", "birthPlace", "brand", "capacity", "category",
+#                  "city", "class", "classification", "club", "code", "collection", "command",
+#                  "company", "component", "continent", "country", "county", "creator", "credit",
+#                  "currency", "day", "depth", "description", "director", "duration", "education",
+#                  "elevation", "family", "fileSize", "format", "gender", "genre", "grades", "isbn",
+#                  "industry", "jockey", "language", "location", "manufacturer", "name", "nationality",
+#                  "notes", "operator", "order", "organisation", "origin", "owner", "person", "plays",
+#                  "position", "product", "publisher", "range", "rank", "ranking", "region", "religion",
+#                  "requirement", "result", "sales", "service", "sex", "species", "state", "status",
+#                  "symbol", "team", "teamName", "type", "weight", "year"]
+
+with open('dbpedia_coltypes.pkl', 'rb') as file:
+    sato_coltypes = pickle.load(file)
 
 
 class AnnotatedDataFrame:
