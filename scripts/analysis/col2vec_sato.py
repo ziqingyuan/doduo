@@ -81,7 +81,9 @@ if __name__ == "__main__":
     tokenizer = BertTokenizer.from_pretrained(shortcut_name)
     mcol_model = BertForMultiOutputClassification.from_pretrained(
         shortcut_name,
-        num_labels=78,
+        # num_labels=78,
+        # DBPEDIA
+        num_labels=2831,
         output_attentions=True,
         output_hidden_states=True,
     ).to(device)
@@ -92,7 +94,9 @@ if __name__ == "__main__":
 
     scol_model = BertForSequenceClassification.from_pretrained(
         shortcut_name,
-        num_labels=78,
+        # num_labels=78,
+        # DBPEDIA
+        num_labels=2831,
         output_attentions=True,
         output_hidden_states=True,
     ).to(device)

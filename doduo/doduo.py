@@ -163,7 +163,9 @@ class Doduo:
                 basedir,
                 "model/sato0_mosato_bert_bert-base-uncased-bs16-ml-32__sato0-1.00_best_micro_f1.pt"
             )
-            coltype_num_labels = 78
+            # coltype_num_labels = 78
+            # DBPEDIA
+            coltype_num_labels = 2831
         elif self.args.model == "wikitable":
             coltype_model_path = os.path.join(
                 basedir,

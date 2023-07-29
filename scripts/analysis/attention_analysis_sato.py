@@ -86,7 +86,9 @@ if __name__ == "__main__":
     tokenizer = BertTokenizer.from_pretrained(shortcut_name)
     mcol_model = BertForMultiOutputClassification.from_pretrained(
         shortcut_name,
-        num_labels=78,
+        # num_labels=78,
+        # DBPEDIA
+        num_labels=2831,
         output_attentions=True,
         output_hidden_states=True,
     ).to(device)
@@ -96,7 +98,9 @@ if __name__ == "__main__":
 
     scol_model = BertForSequenceClassification.from_pretrained(
         shortcut_name,
-        num_labels=78,
+        # num_labels=78,
+        # DBPEDIA
+        num_labels=2831,
         output_attentions=True,
         output_hidden_states=True,
     ).to(device)
@@ -135,10 +139,14 @@ if __name__ == "__main__":
         Acls = Acls / Acls.sum(axis=1, keepdims=1) # Normalize
 
         # print(cls_indexes)
-        att_matrix = np.empty((78, 78))
+        # att_matrix = np.empty((78, 78))
+        # DBPEDIA
+        att_matrix = np.empty((2831, 2831))
         att_matrix[:] = np.nan
 
-        cooc_matrix = np.empty((78, 78))
+        # cooc_matrix = np.empty((78, 78))
+        # DBPEDIA
+        cooc_matrix = np.empty((2831, 2831))
         cooc_matrix[:] = np.nan
 
         for j, cls_id1 in enumerate(m_data["label"].detach().cpu().numpy()):

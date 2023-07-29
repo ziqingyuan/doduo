@@ -55,7 +55,9 @@ if __name__ == "__main__":
         if task[0] == "m":
             multicol_only = True
         tasks = [task]  # sato, sato0 , ...
-        num_classes_list.append(78)
+        # num_classes_list.append(78)
+        # DBPEDIA
+        num_classes_list.append(2831)
     elif task == "turlturl-re":
         tasks = ["turl", "turl-re"]
         num_classes_list.append(255)
@@ -67,11 +69,15 @@ if __name__ == "__main__":
         colpair = True
     elif task == "satoturl":
         tasks = ["sato", "turl"]
-        num_classes_list.append(78)
+        # num_classes_list.append(78)
+        # DBPEDIA
+        num_classes_list.append(2831)
         num_classes_list.append(121)
     elif task == "satoturlturl-re":
         tasks = ["sato", "turl", "turl-re"]
-        num_classes_list.append(78)
+        # num_classes_list.append(78)
+        # DBPEDIA
+        num_classes_list.append(2831)
         num_classes_list.append(121)
         num_classes_list.append(255)
     else:
@@ -245,10 +251,14 @@ if __name__ == "__main__":
                 ts_class_f1 = f1_score(ts_true_list,
                                        ts_pred_list,
                                        average=None,
-                                       labels=np.arange(78))
+                                       # labels=np.arange(78))
+                                       # DBPEDIA
+                                       labels=np.arange(2831))
                 ts_conf_mat = confusion_matrix(ts_true_list,
                                                ts_pred_list,
-                                               labels=np.arange(78))
+                                               # labels=np.arange(78))
+                                               # DBPEDIA
+                                               labels=np.arange(2831))
             elif "turl" in task:
                 ts_micro_f1, ts_macro_f1, ts_class_f1, ts_conf_mat = f1_score_multilabel(
                     ts_true_list, ts_pred_list)

@@ -408,7 +408,9 @@ if __name__ == "__main__":
     #model = BertModelMultiOutput.from_pretrained("bert-base-uncased")
     model = BertForMultiOutputClassification.from_pretrained(
         "bert-base-uncased",  # <= BertModelMultiOutput
-        num_labels=78,
+        # num_labels=78,
+        # DBPEDIA
+        num_labels=2831,
         output_attentions=False,
         output_hidden_states=False,
     )

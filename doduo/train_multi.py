@@ -73,7 +73,9 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--num_classes",
-        default=78,
+        # default=78,
+        # DBPEDIA
+        default=2831,
         type=int,
         help="Number of classes",
     )
@@ -122,11 +124,22 @@ if __name__ == "__main__":
     args.tasks = sorted(args.tasks)
 
     task_num_class_dict = {
-        "sato0": 78,
-        "sato1": 78,
-        "sato2": 78,
-        "sato3": 78,
-        "sato4": 78,
+        # "sato0": 78,
+        # "sato1": 78,
+        # "sato2": 78,
+        # "sato3": 78,
+        # "sato4": 78,
+        # "msato0": 78,
+        # "msato1": 78,
+        # "msato2": 78,
+        # "msato3": 78,
+        # "msato4": 78,
+        # DBPEDIA
+        "sato0": 2831,
+        "sato1": 2831,
+        "sato2": 2831,
+        "sato3": 2831,
+        "sato4": 2831,
         "msato0": 78,
         "msato1": 78,
         "msato2": 78,
