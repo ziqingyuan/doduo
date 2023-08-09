@@ -167,6 +167,9 @@ class SatoCVTablewiseDataset(Dataset):
 
             cls_index_list = [0] + np.cumsum(
                 np.array([len(x) for x in token_ids_list])).tolist()[:-1]
+
+            cls_index_list = [idx for idx in cls_index_list if idx < len(flat_token_ids)]
+
             for cls_index in cls_index_list:
                 assert token_ids[
                     cls_index] == tokenizer.cls_token_id, "cls_indexes validation"
