@@ -155,30 +155,45 @@ class SatoCVTablewiseDataset(Dataset):
             token_ids_list = group_df["data"].apply(lambda x: tokenizer.encode(
                 x, add_special_tokens=True, max_length=max_length + 2, truncation=True)).tolist(
                 )
-            # token_ids = torch.LongTensor(reduce(operator.add,
-            #                                     token_ids_list)).to(device)
 
-            flat_token_ids = reduce(operator.add, token_ids_list)
+            total_length = sum(len(token) for token in token_ids_list)
 
-            if len(flat_token_ids) > table_hard_cap:
-                flat_token_ids = flat_token_ids[:table_hard_cap]
+            # Track original row indices (before apply the hard cap 512)
+            row_indices = list(range(len(token_ids_list)))
 
-            token_ids = torch.LongTensor(flat_token_ids).to(device)
+            if total_length > table_hard_cap:
+                tokens_remaining = table_hard_cap
+                adjusted_token_ids_list = []
+                adjusted_row_indices = []
+
+                for token, row_index in zip(token_ids_list, row_indices):
+                    # If adding the next row of tokens will exceed the limit, then stop
+                    if tokens_remaining - len(token) < 0:
+                        break
+                    adjusted_token_ids_list.append(token)
+                    adjusted_row_indices.append(row_index)
+                    tokens_remaining -= len(token)
+
+                token_ids_list = adjusted_token_ids_list
+                row_indices = adjusted_row_indices
+
+            token_ids = torch.LongTensor(reduce(operator.add,
+                                                token_ids_list)).to(device)
 
             cls_index_list = [0] + np.cumsum(
                 np.array([len(x) for x in token_ids_list])).tolist()[:-1]
 
-            cls_index_list = [idx for idx in cls_index_list if idx < len(flat_token_ids)]
 
             for cls_index in cls_index_list:
                 assert token_ids[
                     cls_index] == tokenizer.cls_token_id, "cls_indexes validation"
             cls_indexes = torch.LongTensor(cls_index_list).to(device)
-            class_ids = torch.LongTensor(
-                group_df["class_id"].values).to(device)
+            # Ensure that labels are truncated/selected based on the cls_index_list
+            class_ids = torch.LongTensor(group_df.iloc[row_indices]["class_id"].values).to(device)
+
             data_list.append(
                 [index,
-                 len(group_df), token_ids, class_ids, cls_indexes])
+                 len(row_indices), token_ids, class_ids, cls_indexes])
 
         self.table_df = pd.DataFrame(data_list,
                                      columns=[
